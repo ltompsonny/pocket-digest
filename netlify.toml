@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <clipPath id="round">
+      <rect width="200" height="200" rx="44" ry="44"/>
+    </clipPath>
+  </defs>
+
+  <!-- Background -->
+  <rect width="200" height="200" rx="44" ry="44" fill="#1a6b4a"/>
+
+  <!-- Document shape -->
+  <rect x="54" y="34" width="78" height="100" rx="7" ry="7" fill="#ffffff" opacity="0.15"/>
+  <rect x="58" y="38" width="78" height="100" rx="7" ry="7" fill="#ffffff"/>
+
+  <!-- Document fold corner -->
+  <path d="M118 38 L136 56 L118 56 Z" fill="#cde0d6"/>
+  <path d="M118 38 L136 56 L118 56 Z" fill="#1a6b4a" opacity="0.2"/>
+
+  <!-- Text lines on document -->
+  <rect x="70" y="68" width="44" height="5" rx="2.5" fill="#1a6b4a" opacity="0.7"/>
+  <rect x="70" y="80" width="52" height="4" rx="2" fill="#1a6b4a" opacity="0.3"/>
+  <rect x="70" y="90" width="48" height="4" rx="2" fill="#1a6b4a" opacity="0.3"/>
+  <rect x="70" y="100" width="50" height="4" rx="2" fill="#1a6b4a" opacity="0.3"/>
+  <rect x="70" y="110" width="40" height="4" rx="2" fill="#1a6b4a" opacity="0.3"/>
+
+  <!-- Sparkle / AI indicator -->
+  <g transform="translate(118, 128)">
+    <circle cx="0" cy="0" r="18" fill="#1a6b4a"/>
+    <circle cx="0" cy="0" r="16" fill="#22c97a"/>
+    <!-- Lightning bolt -->
+    <polygon points="3,-9 -2,1 2,1 -3,9 8,-2 3,-2" fill="#ffffff"/>
+  </g>
+</svg>

@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Pocket Digest</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: #f0f4f2;
+    min-height: 100vh;
+    padding: 2rem 1.25rem 4rem;
+    color: #1a1a1a;
+  }
+
+  .app { max-width: 720px; margin: 0 auto; }
+
+  .header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 2px solid #cde0d6;
+  }
+
+  .header-icon {
+    width: 52px; height: 52px;
+    background: #1a6b4a;
+    border-radius: 14px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+
+  .header-icon svg { width: 26px; height: 26px; fill: none; stroke: #fff; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+
+  .header h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 26px;
+    font-weight: 400;
+    color: #1a1a1a;
+    margin-bottom: 3px;
+  }
+
+  .header p { font-size: 13px; color: #5a7a6a; }
+
+  .card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.75rem;
+    margin-bottom: 1.25rem;
+    border: 1.5px solid #dce8e2;
+  }
+
+  .field { margin-bottom: 1.25rem; }
+  .field:last-child { margin-bottom: 0; }
+
+  label {
+    display: block;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #5a7a6a;
+    margin-bottom: 7px;
+  }
+
+  input[type="text"], textarea {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    padding: 11px 14px;
+    border: 1.5px solid #ccddd5;
+    border-radius: 9px;
+    background: #f8fbf9;
+    color: #1a1a1a;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  input[type="text"]:focus, textarea:focus {
+    border-color: #1a6b4a;
+    background: #fff;
+  }
+
+  textarea { resize: vertical; min-height: 76px; }
+
+  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 7px; }
+
+  .pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    padding: 6px 15px;
+    border-radius: 999px;
+    border: 1.5px solid #ccddd5;
+    background: #f0f4f2;
+    color: #4a6a5a;
+    cursor: pointer;
+    transition: all 0.12s;
+    font-weight: 400;
+  }
+
+  .pill:hover { border-color: #1a6b4a; color: #1a6b4a; }
+  .pill.active { background: #1a6b4a; border-color: #1a6b4a; color: #fff; font-weight: 500; }
+
+  .gen-btn {
+    width: 100%;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 500;
+    padding: 14px;
+    background: #1a6b4a;
+    color: #fff;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: background 0.15s;
+    margin-top: 0.25rem;
+  }
+
+  .gen-btn:hover { background: #155a3d; }
+  .gen-btn:disabled { background: #90bfaa; cursor: not-allowed; }
+
+  .spinner {
+    width: 18px; height: 18px;
+    border: 2.5px solid rgba(255,255,255,0.35);
+    border-top-color: #fff;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  .output-card {
+    background: #fff;
+    border-radius: 16px;
+    border: 1.5px solid #dce8e2;
+    overflow: hidden;
+    margin-top: 1.5rem;
+    display: none;
+  }
+
+  .output-toolbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 11px 18px;
+    background: #f0f4f2;
+    border-bottom: 1.5px solid #dce8e2;
+  }
+
+  .output-toolbar-label {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.07em;
+    text-transform: uppercase;
+    color: #5a7a6a;
+  }
+
+  .toolbar-btns { display: flex; gap: 7px; }
+
+  .toolbar-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 12px;
+    padding: 6px 13px;
+    border-radius: 7px;
+    border: 1.5px solid #ccddd5;
+    background: #fff;
+    color: #4a6a5a;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.12s;
+  }
+
+  .toolbar-btn:hover { border-color: #1a6b4a; color: #1a6b4a; }
+
+  .output-body {
+    padding: 1.75rem 2rem;
+    font-size: 15px;
+    line-height: 1.85;
+    color: #1a1a1a;
+    min-height: 120px;
+  }
+
+  .output-body h2 {
+    font-family: 'DM Serif Display', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: #1a6b4a;
+    margin-bottom: 0.75rem;
+  }
+
+  .output-body h3 {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7a9a8a;
+    margin-top: 1.4rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .output-body p { margin-bottom: 0.6rem; }
+  .output-body ul { padding-left: 1.3rem; margin-bottom: 0.6rem; }
+  .output-body li { margin-bottom: 0.35rem; }
+
+  .loading-state {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: #7a9a8a;
+    font-size: 14px;
+    font-style: italic;
+    padding: 2rem;
+  }
+
+  .loading-spinner {
+    width: 20px; height: 20px;
+    border: 2px solid #cde0d6;
+    border-top-color: #1a6b4a;
+    border-radius: 50%;
+    animation: spin 0.7s linear infinite;
+    flex-shrink: 0;
+  }
+
+  .error-msg { color: #c0392b; font-size: 14px; padding: 1.5rem 2rem; }
+
+  .disclaimer {
+    margin: 0 2rem 1.5rem;
+    padding: 10px 14px;
+    background: #fffbea;
+    border-left: 3px solid #f0c040;
+    border-radius: 0 7px 7px 0;
+    font-size: 12px;
+    color: #7a6020;
+    display: none;
+  }
+
+  .footer {
+    text-align: center;
+    margin-top: 2rem;
+    font-size: 12px;
+    color: #9ab0a5;
+  }
+
+  @media (max-width: 520px) {
+    .two-col { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <div class="header">
+    <div class="header-icon">
+      <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+    </div>
+    <div>
+      <h1>Pocket Digest</h1>
+      <p>Instant plain-English patient summaries, right in your pocket</p>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="field">
+      <label for="topic">Diagnosis, procedure or medication</label>
+      <input type="text" id="topic" placeholder="e.g. Type 2 Diabetes, Knee Replacement, Metformin…" />
+    </div>
+
+    <div class="two-col">
+      <div class="field">
+        <label>Reading level</label>
+        <div class="pills" id="level-group">
+          <button class="pill active" data-val="simple">Simple</button>
+          <button class="pill" data-val="standard">Standard</button>
+          <button class="pill" data-val="elderly">Elderly / ESL</button>
+        </div>
+      </div>
+      <div class="field">
+        <label>Focus</label>
+        <div class="pills" id="focus-group">
+          <button class="pill active" data-val="overview">Overview</button>
+          <button class="pill" data-val="aftercare">Aftercare</button>
+          <button class="pill" data-val="medication">Medication</button>
+          <button class="pill" data-val="warning">Warning signs</button>
+        </div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label for="notes">Clinician notes to include (optional)</label>
+      <textarea id="notes" placeholder="e.g. Follow up in 2 weeks, avoid ibuprofen, no driving for 24hrs…"></textarea>
+    </div>
+
+    <button class="gen-btn" id="gen-btn">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+      Generate handout
+    </button>
+  </div>
+
+  <div class="output-card" id="output-card">
+    <div class="output-toolbar">
+      <span class="output-toolbar-label">Generated handout</span>
+      <div class="toolbar-btns">
+        <button class="toolbar-btn" id="copy-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+          Copy
+        </button>
+        <button class="toolbar-btn" id="print-btn">
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 6 2 18 2 18 9"/><path d="M6 18H4a2 2 0 0 1-2-2v-5a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v5a2 2 0 0 1-2 2h-2"/><rect x="6" y="14" width="12" height="8"/></svg>
+          Print
+        </button>
+      </div>
+    </div>
+    <div class="output-body" id="output-body"></div>
+    <div class="disclaimer" id="disclaimer">
+      <strong>Clinical reminder:</strong> Always review AI-generated content before giving it to a patient. Use your clinical judgment — this is a starting point, not a finished product.
+    </div>
+  </div>
+
+  <div class="footer">Pocket Digest · Powered by Claude AI</div>
+
+</div>
+
+<script>
+  var selectedLevel = 'simple';
+  var selectedFocus = 'overview';
+
+  document.getElementById('level-group').addEventListener('click', function(e) {
+    var btn = e.target.closest('.pill');
+    if (!btn) return;
+    document.querySelectorAll('#level-group .pill').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    selectedLevel = btn.dataset.val;
+  });
+
+  document.getElementById('focus-group').addEventListener('click', function(e) {
+    var btn = e.target.closest('.pill');
+    if (!btn) return;
+    document.querySelectorAll('#focus-group .pill').forEach(function(p) { p.classList.remove('active'); });
+    btn.classList.add('active');
+    selectedFocus = btn.dataset.val;
+  });
+
+  document.getElementById('gen-btn').addEventListener('click', function() {
+    var topic = document.getElementById('topic').value.trim();
+    if (!topic) { document.getElementById('topic').focus(); return; }
+
+    var notes = document.getElementById('notes').value.trim();
+    var btn = document.getElementById('gen-btn');
+    var card = document.getElementById('output-card');
+    var body = document.getElementById('output-body');
+    var disclaimer = document.getElementById('disclaimer');
+
+    btn.disabled = true;
+    btn.innerHTML = '<div class="spinner"></div> Generating…';
+    card.style.display = 'block';
+    disclaimer.style.display = 'none';
+    body.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div>Writing your handout…</div>';
+
+    fetch('/api/generate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ topic: topic, level: selectedLevel, focus: selectedFocus, notes: notes })
+    })
+    .then(function(r) { return r.json(); })
+    .then(function(data) {
+      if (data.error) {
+        body.innerHTML = '<div class="error-msg">Error: ' + data.error + '</div>';
+      } else {
+        body.innerHTML = data.html;
+        disclaimer.style.display = 'block';
+      }
+    })
+    .catch(function() {
+      body.innerHTML = '<div class="error-msg">Something went wrong. Please try again.</div>';
+    })
+    .finally(function() {
+      btn.disabled = false;
+      btn.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate handout';
+    });
+  });
+
+  document.getElementById('copy-btn').addEventListener('click', function() {
+    var text = document.getElementById('output-body').innerText;
+    var btn = document.getElementById('copy-btn');
+    navigator.clipboard.writeText(text).then(function() {
+      btn.innerHTML = '✓ Copied!';
+      setTimeout(function() {
+        btn.innerHTML = '<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
+      }, 2000);
+    });
+  });
+
+  document.getElementById('print-btn').addEventListener('click', function() {
+    var html = document.getElementById('output-body').innerHTML;
+    var topic = document.getElementById('topic').value || 'Patient Handout';
+    var w = window.open('', '_blank');
+    w.document.write('<!DOCTYPE html><html><head><title>' + topic + '</title><style>body{font-family:Georgia,serif;max-width:640px;margin:2rem auto;font-size:15px;line-height:1.8;color:#111}h2{font-size:22px;color:#1a6b4a;margin-bottom:.5rem}h3{font-size:11px;text-transform:uppercase;letter-spacing:.07em;color:#666;margin:1.5rem 0 .5rem}ul{padding-left:1.3rem}li{margin-bottom:.3rem}.footer{margin-top:2rem;font-size:11px;color:#aaa;border-top:1px solid #eee;padding-top:.75rem}</style></head><body>' + html + '<div class="footer">Generated by Pocket Digest · Review before distributing to patients.</div></body></html>');
+    w.document.close(); w.focus(); w.print();
+  });
+</script>
+</body>
+</html>
