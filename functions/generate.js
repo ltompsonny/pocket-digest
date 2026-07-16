@@ -46,30 +46,26 @@ Format:
 - Output clean HTML only using h2, h3, p, ul, li tags — nothing else`;
 
   try {
-    const response = await fetch('https://api.anthropic.com/v1/messages', {
+    const apiKey = process.env.GEMINI_API_KEY;
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+
+    const response = await fetch(url, {
       method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-api-key': process.env.ANTHROPIC_API_KEY,
-        'anthropic-version': '2023-06-01'
-      },
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        model: 'claude-sonnet-4-20250514',
-        max_tokens: 1000,
-        messages: [{ role: 'user', content: prompt }]
+        contents: [{ parts: [{ text: prompt }] }],
+        generationConfig: { maxOutputTokens: 1000, temperature: 0.7 }
       })
     });
 
     const data = await response.json();
 
     if (data.error) {
-      return {
-        statusCode: 500,
-        body: JSON.stringify({ error: data.error.message })
-      };
+      return { statusCode: 500, body: JSON.stringify({ error: data.error.message }) };
     }
 
-    const html = (data.content?.[0]?.text || '').replace(/```html|```/g, '').trim();
+    const raw = data.candidates?.[0]?.content?.parts?.[0]?.text || '';
+    const html = raw.replace(/```html|```/g, '').trim();
 
     return {
       statusCode: 200,
