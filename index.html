@@ -12,11 +12,8 @@
   .header { background: #fff; border-bottom: 3px solid #b8341a; }
   .header img {
     display: block;
-    width: 50%;
-    max-width: 400px;
+    width: 100%;
     height: auto;
-    margin: 0 auto;
-    padding: 8px 0;
   }
 
   .main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
@@ -40,8 +37,8 @@
   .gen-btn:disabled { background: #7a9aba; cursor: not-allowed; }
   .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-  .diagram-picker { display: none; margin-top: 1.25rem; }
-  .diagram-picker.visible { display: block; }
+  .diagram-picker { display: none; margin-top: 1.25rem; background: #fff; border-radius: 14px; padding: 1.5rem; border: 1.5px solid #dce8f0; }
+  .diagram-picker.visible { display: block !important; }
   .diagram-picker-title { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5a7a9a; margin-bottom: 0.75rem; }
   .diagram-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
   .diagram-option { border: 2px solid #c8dcea; border-radius: 10px; overflow: hidden; cursor: pointer; transition: border-color 0.12s; background: #fff; position: relative; }
@@ -81,11 +78,11 @@
     head title { display: none; }
     body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .main { padding: 0; }
-    .card, .output-toolbar, .disclaimer, .diagram-picker { display: none !important; }
+    .card, .output-toolbar, .disclaimer, #diagram-picker { display: none !important; }
     .output-card { display: block !important; border: none; margin: 0; }
     .output-body { padding: 0.5rem 0; }
     .header { border-bottom: 2px solid #b8341a; }
-    .header img { width: 40%; max-width: 300px; padding: 4px 0; }
+    .header img { width: 60%; max-width: 450px; padding: 4px 0; }
   }
 
   @media (max-width: 520px) {
@@ -142,7 +139,7 @@
     </button>
   </div>
 
-  <div class="diagram-picker card" id="diagram-picker">
+  <div class="diagram-picker" id="diagram-picker" style="display:none">
     <div class="diagram-picker-title">Select diagrams to include — choose 1, 2, or all 3</div>
     <div id="diagram-loading" class="diagram-loading" style="display:none">
       <div class="diagram-spinner"></div> Searching medical image library…
@@ -274,7 +271,7 @@ function loadDiagrams(topic) {
   var picker = document.getElementById('diagram-picker');
   var grid = document.getElementById('diagram-grid');
   var loading = document.getElementById('diagram-loading');
-  picker.classList.add('visible');
+  picker.classList.add('visible'); picker.style.display = 'block';
   grid.innerHTML = '';
   loading.style.display = 'flex';
   selectedDiagrams = [];
