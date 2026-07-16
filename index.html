@@ -6,444 +6,434 @@
 <title>Pocket Digest — Back On Track Physiotherapy</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display&family=DM+Sans:wght@400;500&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-  body {
-    font-family: "DM Sans", sans-serif;
-    background: #f0f4f2;
-    min-height: 100vh;
-    color: #1a1a1a;
-  }
+body {
+  font-family: "DM Sans", sans-serif;
+  background: #f0f4f2;
+  min-height: 100vh;
+  color: #1a1a1a;
+}
 
-  /* ── HEADER ── */
+/* HEADER */
+.header {
+  background: #fff;
+  border-bottom: 3px solid #b8341a;
+}
+
+.header img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* MAIN */
+.main {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 1.5rem 1.5rem 4rem;
+}
+
+/* TABS */
+.tabs {
+  display: flex;
+  gap: 0;
+  margin-bottom: 1.25rem;
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid #dce8f0;
+  overflow: hidden;
+}
+
+.tab-btn {
+  flex: 1;
+  font-family: "DM Sans", sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  padding: 12px 8px;
+  border: none;
+  background: transparent;
+  color: #5a7a9a;
+  cursor: pointer;
+  border-bottom: 3px solid transparent;
+  transition: all 0.15s;
+}
+
+.tab-btn:hover { color: #1a4a8a; background: #f0f6fa; }
+.tab-btn.active { color: #1a4a8a; border-bottom-color: #1a4a8a; background: #f0f6fa; }
+
+/* CARDS */
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  border: 1.5px solid #dce8f0;
+}
+
+.card-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #5a7a9a;
+  margin-bottom: 1rem;
+}
+
+/* FORM */
+.field { margin-bottom: 1.1rem; }
+.field:last-child { margin-bottom: 0; }
+
+label {
+  display: block;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #5a7a9a;
+  margin-bottom: 6px;
+}
+
+input[type="text"], textarea {
+  width: 100%;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  padding: 10px 13px;
+  border: 1.5px solid #c8dcea;
+  border-radius: 8px;
+  background: #f7fafc;
+  color: #1a1a1a;
+  outline: none;
+  transition: border-color 0.15s;
+}
+
+input[type="text"]:focus, textarea:focus { border-color: #1a4a8a; background: #fff; }
+textarea { resize: vertical; min-height: 72px; }
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+
+/* PILLS */
+.pills { display: flex; flex-wrap: wrap; gap: 6px; }
+
+.pill {
+  font-family: "DM Sans", sans-serif;
+  font-size: 13px;
+  padding: 5px 14px;
+  border-radius: 999px;
+  border: 1.5px solid #c8dcea;
+  background: #f0f6fa;
+  color: #3a6a8a;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+
+.pill:hover { border-color: #1a4a8a; color: #1a4a8a; }
+.pill.active { background: #1a4a8a; border-color: #1a4a8a; color: #fff; font-weight: 500; }
+
+/* CHECKBOX */
+.check-label {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  font-size: 14px;
+  color: #1a1a1a;
+  user-select: none;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: 0;
+}
+
+.check-label input[type="checkbox"] {
+  width: 18px;
+  height: 18px;
+  accent-color: #1a4a8a;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+/* GENERATE BUTTON */
+.gen-btn {
+  width: 100%;
+  font-family: "DM Sans", sans-serif;
+  font-size: 15px;
+  font-weight: 500;
+  padding: 13px;
+  background: #1a4a8a;
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition: background 0.15s;
+  margin-top: 0.5rem;
+}
+
+.gen-btn:hover { background: #123570; }
+.gen-btn:disabled { background: #7a9aba; cursor: not-allowed; }
+
+.spinner {
+  width: 18px; height: 18px;
+  border: 2.5px solid rgba(255,255,255,0.35);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+/* DIAGRAM PICKER */
+.diagram-section {
+  background: #fff;
+  border-radius: 14px;
+  padding: 1.5rem;
+  margin-bottom: 1.25rem;
+  border: 1.5px solid #dce8f0;
+  display: none;
+}
+
+.diagram-section.show { display: block; }
+
+.diagram-section-title {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #5a7a9a;
+  margin-bottom: 0.75rem;
+}
+
+.diagram-loading {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  color: #5a7a9a;
+  font-size: 13px;
+  font-style: italic;
+  padding: 0.5rem 0;
+}
+
+.diagram-spinner {
+  width: 16px; height: 16px;
+  border: 2px solid #c8dcea;
+  border-top-color: #1a4a8a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.diagram-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.diagram-opt {
+  border: 2px solid #c8dcea;
+  border-radius: 10px;
+  overflow: hidden;
+  cursor: pointer;
+  transition: border-color 0.12s;
+  background: #fff;
+  position: relative;
+}
+
+.diagram-opt:hover { border-color: #1a4a8a; }
+.diagram-opt.selected { border-color: #1a4a8a; background: #f0f6fa; }
+
+.diagram-opt .tick {
+  position: absolute;
+  top: 6px; right: 6px;
+  width: 22px; height: 22px;
+  background: #1a4a8a;
+  border-radius: 50%;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-size: 13px;
+  font-weight: 500;
+  z-index: 2;
+}
+
+.diagram-opt.selected .tick { display: flex; }
+
+.diagram-opt .img-wrap {
+  width: 100%;
+  height: 130px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f7fafc;
+  overflow: hidden;
+}
+
+.diagram-opt .img-wrap img {
+  max-width: 100%;
+  max-height: 130px;
+  object-fit: contain;
+  display: block;
+}
+
+.diagram-opt-body { padding: 8px 10px 10px; }
+.diagram-opt-title { font-size: 12px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; line-height: 1.3; }
+.diagram-opt-desc { font-size: 11px; color: #5a7a9a; }
+.diagram-msg { font-size: 13px; color: #5a7a9a; padding: 0.25rem 0; }
+
+/* OUTPUT */
+.output-section {
+  background: #fff;
+  border-radius: 14px;
+  border: 1.5px solid #dce8f0;
+  overflow: hidden;
+  display: none;
+}
+
+.output-section.show { display: block; }
+
+.output-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 16px;
+  background: #f0f6fa;
+  border-bottom: 1.5px solid #dce8f0;
+}
+
+.output-toolbar-label {
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  color: #5a7a9a;
+}
+
+.toolbar-btns { display: flex; gap: 7px; }
+
+.toolbar-btn {
+  font-family: "DM Sans", sans-serif;
+  font-size: 12px;
+  padding: 5px 12px;
+  border-radius: 6px;
+  border: 1.5px solid #c8dcea;
+  background: #fff;
+  color: #3a6a8a;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  transition: all 0.12s;
+}
+
+.toolbar-btn:hover { border-color: #1a4a8a; color: #1a4a8a; }
+
+.output-body {
+  padding: 1.5rem 1.75rem;
+  font-size: 15px;
+  line-height: 1.85;
+  color: #1a1a1a;
+  min-height: 100px;
+}
+
+.output-body h2 { font-family: "DM Serif Display", serif; font-size: 21px; font-weight: 400; color: #1a4a8a; margin-bottom: 0.6rem; }
+.output-body h3 { font-size: 11px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #7a9aba; margin-top: 1.3rem; margin-bottom: 0.4rem; }
+.output-body p { margin-bottom: 0.6rem; }
+.output-body ul { padding-left: 1.25rem; margin-bottom: 0.6rem; }
+.output-body li { margin-bottom: 0.3rem; }
+
+.output-diagrams {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 1rem;
+  margin: 0 1.75rem 1.5rem;
+  padding-top: 1.25rem;
+  border-top: 1px solid #dce8f0;
+}
+
+.output-diagram img { width: 100%; border-radius: 8px; border: 1px solid #dce8f0; background: #fff; display: block; }
+.output-diagram p { font-size: 11px; color: #5a7a9a; margin-top: 5px; text-align: center; }
+
+.loading-state {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  color: #7a9aba;
+  font-size: 14px;
+  font-style: italic;
+  padding: 1.75rem;
+}
+
+.loading-spinner {
+  width: 18px; height: 18px;
+  border: 2px solid #dce8f0;
+  border-top-color: #1a4a8a;
+  border-radius: 50%;
+  animation: spin 0.7s linear infinite;
+  flex-shrink: 0;
+}
+
+.error-msg { color: #c0392b; font-size: 14px; padding: 1.25rem 1.75rem; }
+
+.disclaimer {
+  margin: 0 1.75rem 1.25rem;
+  padding: 9px 13px;
+  background: #fffbea;
+  border-left: 3px solid #f0c040;
+  border-radius: 0 6px 6px 0;
+  font-size: 12px;
+  color: #7a6020;
+  display: none;
+}
+
+/* PRINT NOTICE */
+.print-notice {
+  background: #eef4ff;
+  border: 1.5px solid #b8d0f0;
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 13px;
+  color: #1a4a8a;
+  margin-bottom: 1.25rem;
+  display: none;
+}
+
+.print-notice.show { display: block; }
+
+/* PRINT */
+@media print {
+  @page { margin: 12mm; size: A4; }
+
+  body { background: #fff; }
+  .main { padding: 0; max-width: 100%; }
+  .tabs, .card, .diagram-section, .output-toolbar, .disclaimer, .print-notice { display: none !important; }
+
   .header {
-    background: #fff;
-    border-bottom: 3px solid #b8341a;
-    width: 100%;
-    overflow: hidden;
-  }
-
-  .header img {
-    display: block;
-    width: 100%;
-    height: 90px;
-    object-fit: cover;
-    object-position: center center;
-  }
-
-  /* ── MAIN ── */
-  .main {
-    max-width: 780px;
-    margin: 0 auto;
-    padding: 1.5rem 1.5rem 4rem;
-  }
-
-  /* ── CARDS ── */
-  .card {
-    background: #fff;
-    border-radius: 14px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-    border: 1.5px solid #dce8f0;
-  }
-
-  .card-title {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #5a7a9a;
+    border-bottom: 2px solid #b8341a;
     margin-bottom: 1rem;
   }
 
-  /* ── FORM ── */
-  .field { margin-bottom: 1.1rem; }
-  .field:last-child { margin-bottom: 0; }
-
-  label {
-    display: block;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #5a7a9a;
-    margin-bottom: 6px;
-  }
-
-  input[type="text"], textarea {
+  .header img {
     width: 100%;
-    font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    padding: 10px 13px;
-    border: 1.5px solid #c8dcea;
-    border-radius: 8px;
-    background: #f7fafc;
-    color: #1a1a1a;
-    outline: none;
-    transition: border-color 0.15s;
+    height: auto;
   }
 
-  input[type="text"]:focus, textarea:focus {
-    border-color: #1a4a8a;
-    background: #fff;
-  }
-
-  textarea { resize: vertical; min-height: 72px; }
-
-  .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
-
-  /* ── PILLS ── */
-  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
-
-  .pill {
-    font-family: "DM Sans", sans-serif;
-    font-size: 13px;
-    padding: 5px 14px;
-    border-radius: 999px;
-    border: 1.5px solid #c8dcea;
-    background: #f0f6fa;
-    color: #3a6a8a;
-    cursor: pointer;
-    transition: all 0.12s;
-  }
-
-  .pill:hover { border-color: #1a4a8a; color: #1a4a8a; }
-  .pill.active { background: #1a4a8a; border-color: #1a4a8a; color: #fff; font-weight: 500; }
-
-  /* ── CHECKBOX ── */
-  .check-label {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    font-size: 14px;
-    color: #1a1a1a;
-    user-select: none;
-    font-weight: 400;
-    text-transform: none;
-    letter-spacing: 0;
-  }
-
-  .check-label input[type="checkbox"] {
-    width: 18px;
-    height: 18px;
-    accent-color: #1a4a8a;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  /* ── GENERATE BUTTON ── */
-  .gen-btn {
-    width: 100%;
-    font-family: "DM Sans", sans-serif;
-    font-size: 15px;
-    font-weight: 500;
-    padding: 13px;
-    background: #1a4a8a;
-    color: #fff;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 8px;
-    transition: background 0.15s;
-    margin-top: 0.5rem;
-  }
-
-  .gen-btn:hover { background: #123570; }
-  .gen-btn:disabled { background: #7a9aba; cursor: not-allowed; }
-
-  .spinner {
-    width: 18px; height: 18px;
-    border: 2.5px solid rgba(255,255,255,0.35);
-    border-top-color: #fff;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-  }
-
-  @keyframes spin { to { transform: rotate(360deg); } }
-
-  /* ── DIAGRAM PICKER ── */
-  .diagram-section {
-    background: #fff;
-    border-radius: 14px;
-    padding: 1.5rem;
-    margin-bottom: 1.25rem;
-    border: 1.5px solid #dce8f0;
-    display: none;
-  }
-
-  .diagram-section.show { display: block; }
-
-  .diagram-section-title {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #5a7a9a;
-    margin-bottom: 0.75rem;
-  }
-
-  .diagram-loading {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: #5a7a9a;
-    font-size: 13px;
-    font-style: italic;
-  }
-
-  .diagram-spinner {
-    width: 16px; height: 16px;
-    border: 2px solid #c8dcea;
-    border-top-color: #1a4a8a;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
-
-  .diagram-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 10px;
-  }
-
-  .diagram-opt {
-    border: 2px solid #c8dcea;
-    border-radius: 10px;
-    overflow: hidden;
-    cursor: pointer;
-    transition: border-color 0.12s;
-    background: #f7fafc;
-    position: relative;
-  }
-
-  .diagram-opt:hover { border-color: #1a4a8a; }
-  .diagram-opt.selected { border-color: #1a4a8a; background: #f0f6fa; }
-
-  .diagram-opt .tick {
-    position: absolute;
-    top: 6px; right: 6px;
-    width: 22px; height: 22px;
-    background: #1a4a8a;
-    border-radius: 50%;
-    display: none;
-    align-items: center;
-    justify-content: center;
-    color: #fff;
-    font-size: 13px;
-    font-weight: 500;
-    z-index: 2;
-  }
-
-  .diagram-opt.selected .tick { display: flex; }
-
-  .diagram-opt .img-wrap {
-    width: 100%;
-    height: 130px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: #fff;
-    padding: 8px;
-    overflow: hidden;
-  }
-
-  .diagram-opt .img-wrap img {
-    max-width: 100%;
-    max-height: 114px;
-    object-fit: contain;
-    display: block;
-  }
-
-  .diagram-opt-body { padding: 8px 10px 10px; }
-  .diagram-opt-title { font-size: 12px; font-weight: 500; color: #1a1a1a; margin-bottom: 2px; line-height: 1.3; }
-  .diagram-opt-desc { font-size: 11px; color: #5a7a9a; }
-
-  .diagram-msg { font-size: 13px; color: #5a7a9a; }
-
-  /* ── OUTPUT ── */
   .output-section {
-    background: #fff;
-    border-radius: 14px;
-    border: 1.5px solid #dce8f0;
-    overflow: hidden;
-    margin-top: 0;
-    display: none;
+    display: block !important;
+    border: none;
+    border-radius: 0;
   }
 
-  .output-section.show { display: block; }
+  .output-body { padding: 0; }
 
-  .output-toolbar {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 16px;
-    background: #f0f6fa;
-    border-bottom: 1.5px solid #dce8f0;
-  }
+  .output-diagrams { margin: 1rem 0 0; }
+}
 
-  .output-toolbar-label {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.07em;
-    text-transform: uppercase;
-    color: #5a7a9a;
-  }
-
-  .toolbar-btns { display: flex; gap: 7px; }
-
-  .toolbar-btn {
-    font-family: "DM Sans", sans-serif;
-    font-size: 12px;
-    padding: 5px 12px;
-    border-radius: 6px;
-    border: 1.5px solid #c8dcea;
-    background: #fff;
-    color: #3a6a8a;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-    transition: all 0.12s;
-  }
-
-  .toolbar-btn:hover { border-color: #1a4a8a; color: #1a4a8a; }
-
-  .output-body {
-    padding: 1.5rem 1.75rem;
-    font-size: 15px;
-    line-height: 1.85;
-    color: #1a1a1a;
-    min-height: 100px;
-  }
-
-  .output-body h2 {
-    font-family: "DM Serif Display", serif;
-    font-size: 21px;
-    font-weight: 400;
-    color: #1a4a8a;
-    margin-bottom: 0.6rem;
-  }
-
-  .output-body h3 {
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    color: #7a9aba;
-    margin-top: 1.3rem;
-    margin-bottom: 0.4rem;
-  }
-
-  .output-body p { margin-bottom: 0.6rem; }
-  .output-body ul { padding-left: 1.25rem; margin-bottom: 0.6rem; }
-  .output-body li { margin-bottom: 0.3rem; }
-
-  .output-diagrams {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 1rem;
-    margin: 0 1.75rem 1.5rem;
-    padding-top: 1.25rem;
-    border-top: 1px solid #dce8f0;
-  }
-
-  .output-diagram img {
-    width: 100%;
-    border-radius: 8px;
-    border: 1px solid #dce8f0;
-    background: #fff;
-  }
-
-  .output-diagram p {
-    font-size: 11px;
-    color: #5a7a9a;
-    margin-top: 5px;
-    text-align: center;
-  }
-
-  .loading-state {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    color: #7a9aba;
-    font-size: 14px;
-    font-style: italic;
-    padding: 1.75rem;
-  }
-
-  .loading-spinner {
-    width: 18px; height: 18px;
-    border: 2px solid #dce8f0;
-    border-top-color: #1a4a8a;
-    border-radius: 50%;
-    animation: spin 0.7s linear infinite;
-    flex-shrink: 0;
-  }
-
-  .error-msg { color: #c0392b; font-size: 14px; padding: 1.25rem 1.75rem; }
-
-  .disclaimer {
-    margin: 0 1.75rem 1.25rem;
-    padding: 9px 13px;
-    background: #fffbea;
-    border-left: 3px solid #f0c040;
-    border-radius: 0 6px 6px 0;
-    font-size: 12px;
-    color: #7a6020;
-  }
-
-  /* ── PRINT ── */
-  @media print {
-    @page {
-      margin: 12mm;
-      size: A4;
-    }
-
-    body { background: #fff; }
-
-    .main { padding: 0; max-width: 100%; }
-
-    /* hide everything except header and output */
-    .card,
-    .diagram-section,
-    .output-toolbar { display: none !important; }
-
-    .header {
-      border-bottom: 2px solid #b8341a;
-      margin-bottom: 1rem;
-    }
-
-    .header img {
-      width: 100%;
-      height: auto;
-      max-height: 80px;
-      object-fit: contain;
-      object-position: left center;
-    }
-
-    .output-section {
-      display: block !important;
-      border: none;
-      border-radius: 0;
-    }
-
-    .output-body { padding: 0; }
-
-    .disclaimer { display: none; }
-
-    .output-diagrams {
-      margin: 1rem 0 0;
-    }
-  }
-
-  @media (max-width: 520px) {
-    .two-col { grid-template-columns: 1fr; }
-    .diagram-grid { grid-template-columns: 1fr; }
-  }
+@media (max-width: 520px) {
+  .two-col { grid-template-columns: 1fr; }
+  .diagram-grid { grid-template-columns: 1fr; }
+}
 </style>
 </head>
 <body>
@@ -454,8 +444,20 @@
 
 <div class="main">
 
-  <div class="card">
-    <div class="card-title">Generate a patient handout</div>
+  <!-- TABS -->
+  <div class="tabs">
+    <button class="tab-btn active" data-tab="handout">Patient handout</button>
+    <button class="tab-btn" data-tab="exercises">Rehab exercises</button>
+  </div>
+
+  <!-- PRINT NOTICE -->
+  <div class="print-notice" id="print-notice">
+    <strong>Before printing:</strong> In the print dialog, turn off "Headers and footers" to remove the date and page title from your printout.
+  </div>
+
+  <!-- FORM CARD -->
+  <div class="card" id="form-card">
+    <div class="card-title" id="form-card-title">Generate a patient handout</div>
 
     <div class="field">
       <label for="topic">Diagnosis, procedure or medication</label>
@@ -471,7 +473,7 @@
           <button class="pill" data-val="elderly">Elderly / ESL</button>
         </div>
       </div>
-      <div class="field" style="margin:0">
+      <div class="field" style="margin:0" id="focus-field">
         <label>Focus</label>
         <div class="pills" id="focus-group">
           <button class="pill active" data-val="overview">Overview</button>
@@ -487,7 +489,7 @@
       <textarea id="notes" placeholder="e.g. Follow up in 2 weeks, avoid ibuprofen, no driving for 24hrs…"></textarea>
     </div>
 
-    <div class="field">
+    <div class="field" id="diagram-check-field">
       <label class="check-label">
         <input type="checkbox" id="diagram-check">
         Include diagrams from medical image library
@@ -510,7 +512,7 @@
   <!-- OUTPUT -->
   <div class="output-section" id="output-section">
     <div class="output-toolbar">
-      <span class="output-toolbar-label">Generated handout</span>
+      <span class="output-toolbar-label" id="output-label">Generated handout</span>
       <div class="toolbar-btns">
         <button class="toolbar-btn" id="copy-btn">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
@@ -523,7 +525,7 @@
       </div>
     </div>
     <div class="output-body" id="output-body"></div>
-    <div class="disclaimer" id="disclaimer" style="display:none">
+    <div class="disclaimer" id="disclaimer">
       <strong>Clinical reminder:</strong> Review AI-generated content before giving it to a patient. Use your clinical judgment.
     </div>
   </div>
@@ -533,9 +535,43 @@
 <script>
 var level = 'simple';
 var focus = 'overview';
+var activeTab = 'handout';
 var selectedDiagrams = [];
 
-// ── PILL SELECTION ──
+// ── TABS ──
+document.querySelectorAll('.tab-btn').forEach(function(btn) {
+  btn.addEventListener('click', function() {
+    document.querySelectorAll('.tab-btn').forEach(function(b) { b.classList.remove('active'); });
+    btn.classList.add('active');
+    activeTab = btn.dataset.tab;
+
+    if (activeTab === 'exercises') {
+      document.getElementById('form-card-title').textContent = 'Generate rehab exercises';
+      document.getElementById('focus-field').style.display = 'none';
+      document.getElementById('diagram-check-field').style.display = 'none';
+      document.getElementById('gen-btn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate exercises';
+      document.getElementById('output-label').textContent = 'Generated exercises';
+      document.getElementById('notes').placeholder = 'e.g. Post-op week 2, avoid full weight bearing, pain score 4/10…';
+    } else {
+      document.getElementById('form-card-title').textContent = 'Generate a patient handout';
+      document.getElementById('focus-field').style.display = '';
+      document.getElementById('diagram-check-field').style.display = '';
+      document.getElementById('gen-btn').innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate handout';
+      document.getElementById('output-label').textContent = 'Generated handout';
+      document.getElementById('notes').placeholder = 'e.g. Follow up in 2 weeks, avoid ibuprofen, no driving for 24hrs…';
+    }
+
+    // Reset output
+    document.getElementById('output-section').classList.remove('show');
+    document.getElementById('diagram-section').classList.remove('show');
+    document.getElementById('diagram-grid').innerHTML = '';
+    document.getElementById('disclaimer').style.display = 'none';
+    document.getElementById('print-notice').classList.remove('show');
+    selectedDiagrams = [];
+  });
+});
+
+// ── PILLS ──
 document.getElementById('level-group').addEventListener('click', function(e) {
   var b = e.target.closest('.pill'); if (!b) return;
   document.querySelectorAll('#level-group .pill').forEach(function(p) { p.classList.remove('active'); });
@@ -554,29 +590,32 @@ document.getElementById('gen-btn').addEventListener('click', function() {
   if (!topic) { document.getElementById('topic').focus(); return; }
 
   var notes = document.getElementById('notes').value.trim();
-  var wantDiagrams = document.getElementById('diagram-check').checked;
+  var wantDiagrams = document.getElementById('diagram-check').checked && activeTab === 'handout';
   var btn = document.getElementById('gen-btn');
   var outSection = document.getElementById('output-section');
   var outBody = document.getElementById('output-body');
   var disclaimer = document.getElementById('disclaimer');
   var diagSection = document.getElementById('diagram-section');
+  var printNotice = document.getElementById('print-notice');
 
   btn.disabled = true;
   btn.innerHTML = '<div class="spinner"></div> Generating…';
 
-  // Reset
   outSection.classList.add('show');
   disclaimer.style.display = 'none';
-  outBody.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div>Writing your handout…</div>';
+  printNotice.classList.remove('show');
+  outBody.innerHTML = '<div class="loading-state"><div class="loading-spinner"></div>' + (activeTab === 'exercises' ? 'Building your exercise programme…' : 'Writing your handout…') + '</div>';
   diagSection.classList.remove('show');
   document.getElementById('diagram-grid').innerHTML = '';
   document.getElementById('diagram-status').innerHTML = '';
   selectedDiagrams = [];
 
+  var focusVal = activeTab === 'exercises' ? 'exercises' : focus;
+
   fetch('/api/generate', {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ topic: topic, level: level, focus: focus, notes: notes })
+    body: JSON.stringify({ topic: topic, level: level, focus: focusVal, notes: notes })
   })
   .then(function(r) { return r.json(); })
   .then(function(data) {
@@ -585,6 +624,7 @@ document.getElementById('gen-btn').addEventListener('click', function() {
     } else {
       outBody.innerHTML = data.html;
       disclaimer.style.display = 'block';
+      printNotice.classList.add('show');
       if (wantDiagrams) { loadDiagrams(topic); }
     }
   })
@@ -593,109 +633,58 @@ document.getElementById('gen-btn').addEventListener('click', function() {
   })
   .finally(function() {
     btn.disabled = false;
-    btn.innerHTML = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg> Generate handout';
+    var icon = '<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>';
+    btn.innerHTML = icon + (activeTab === 'exercises' ? ' Generate exercises' : ' Generate handout');
   });
 });
 
 // ── DIAGRAM LOADING ──
-var KNOWN = {
-  knee:     [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Knee_diagram.svg/400px-Knee_diagram.svg.png', title:'Knee ligament diagram'}, {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Meniscus_tear_types.svg/400px-Meniscus_tear_types.svg.png', title:'Meniscus tear types'}, {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Blausen_0597_KneeAnatomy_Side.png/400px-Blausen_0597_KneeAnatomy_Side.png', title:'Knee anatomy side view'} ],
-  meniscus: [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Knee_diagram.svg/400px-Knee_diagram.svg.png', title:'Knee ligament diagram'}, {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Meniscus_tear_types.svg/400px-Meniscus_tear_types.svg.png', title:'Meniscus tear types'}, {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Blausen_0597_KneeAnatomy_Side.png/400px-Blausen_0597_KneeAnatomy_Side.png', title:'Knee anatomy side view'} ],
-  shoulder: [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Blausen_0090_ShoulderAnatomy_Glenoid.png/400px-Blausen_0090_ShoulderAnatomy_Glenoid.png', title:'Shoulder anatomy'} ],
-  diabetes: [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Symptoms_of_diabetes.svg/400px-Symptoms_of_diabetes.svg.png', title:'Symptoms of diabetes'}, {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Blausen_0329_Diabetes_Type2.png/400px-Blausen_0329_Diabetes_Type2.png', title:'Type 2 diabetes'} ],
-  hip:      [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Blausen_0488_HipAnatomy_01.png/400px-Blausen_0488_HipAnatomy_01.png', title:'Hip anatomy'} ],
-  spine:    [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Blausen_0738_Spondylolisthesis.png/400px-Blausen_0738_Spondylolisthesis.png', title:'Spine anatomy'} ],
-  ankle:    [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Blausen_0067_AnkleAnatomy.png/400px-Blausen_0067_AnkleAnatomy.png', title:'Ankle anatomy'} ],
-  heart:    [ {url:'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Diagram_of_the_human_heart_%28cropped%29.svg/400px-Diagram_of_the_human_heart_%28cropped%29.svg.png', title:'Heart anatomy'} ]
-};
-
-function getKnown(topic) {
-  var t = topic.toLowerCase();
-  for (var k in KNOWN) { if (t.indexOf(k) !== -1) return KNOWN[k]; }
-  return null;
-}
-
 function loadDiagrams(topic) {
   var section = document.getElementById('diagram-section');
-  var grid = document.getElementById('diagram-grid');
   var status = document.getElementById('diagram-status');
+  var grid = document.getElementById('diagram-grid');
 
   section.classList.add('show');
   grid.innerHTML = '';
-
-  // Use known images if we have them
-  var known = getKnown(topic);
-  if (known) {
-    renderDiagramOptions(known);
-    return;
-  }
-
-  // Otherwise search Wikimedia
   status.innerHTML = '<div class="diagram-loading"><div class="diagram-spinner"></div>Searching medical image library…</div>';
 
-  var q = encodeURIComponent(topic + ' anatomy diagram');
-  fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + q + '&srnamespace=6&srlimit=10&format=json&origin=*')
+  fetch('/api/generate', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ action: 'images', topic: topic })
+  })
   .then(function(r) { return r.json(); })
   .then(function(data) {
-    var results = (data.query && data.query.search) || [];
-    var promises = results.slice(0, 10).map(function(r) {
-      return fetch('https://en.wikipedia.org/w/api.php?action=query&titles=' + encodeURIComponent(r.title) + '&prop=imageinfo&iiprop=url|mime|size&format=json&origin=*')
-      .then(function(r2) { return r2.json(); })
-      .then(function(d) {
-        var page = Object.values(d.query.pages)[0];
-        var info = page && page.imageinfo && page.imageinfo[0];
-        // Accept PNG, JPEG and SVG (served as PNG via Wikimedia thumb)
-        if (info && ['image/png','image/jpeg','image/svg+xml'].includes(info.mime) && info.size > 2000) {
-          // For SVGs use the thumbnail PNG version which browsers can display
-          var url = info.url;
-          if (info.mime === 'image/svg+xml') {
-            url = url.replace('/wikipedia/commons/', '/wikipedia/commons/thumb/').replace(/\/([^\/]+)$/, '/$1/400px-$1.png');
-          }
-          return { url: url, title: r.title.replace('File:','').replace(/\.[^\.]+$/,'') };
-        }
-        return null;
-      }).catch(function() { return null; });
-    });
-
-    Promise.all(promises).then(function(imgs) {
-      status.innerHTML = '';
-      imgs = imgs.filter(Boolean).slice(0, 3);
-      if (imgs.length === 0) {
-        status.innerHTML = '<p class="diagram-msg">No diagrams found. Try a simpler term like "knee" or "shoulder".</p>';
-      } else {
-        renderDiagramOptions(imgs);
-      }
-    });
+    status.innerHTML = '';
+    if (!data.images || data.images.length === 0) {
+      status.innerHTML = '<p class="diagram-msg">No diagrams found for this topic. Try a simpler term like "knee" or "shoulder".</p>';
+      return;
+    }
+    renderDiagramOptions(data.images, grid);
   })
   .catch(function() {
-    status.innerHTML = '<p class="diagram-msg">Could not reach image library. Check your connection.</p>';
+    status.innerHTML = '<p class="diagram-msg">Could not load diagrams. Please try again.</p>';
   });
 }
 
-function renderDiagramOptions(imgs) {
-  var grid = document.getElementById('diagram-grid');
-  grid.innerHTML = '';
+function renderDiagramOptions(imgs, grid) {
   imgs.forEach(function(img) {
     var div = document.createElement('div');
     div.className = 'diagram-opt';
     div.innerHTML =
-      '<div class="tick">✓</div>' +
-      '<div class="img-wrap"><img src="' + img.url + '" alt="' + img.title + '"></div>' +
-      '<div class="diagram-opt-body"><div class="diagram-opt-title">' + img.title + '</div><div class="diagram-opt-desc">Wikimedia Commons</div></div>';
-
-    // If image fails to load, show a placeholder instead of hiding
-    var imgEl = div.querySelector('img');
-    imgEl.addEventListener('error', function() {
-      imgEl.style.display = 'none';
-      div.querySelector('.img-wrap').innerHTML = '<div style="font-size:12px;color:#5a7a9a;text-align:center;padding:1rem">Preview unavailable<br>Will print correctly</div>';
-    });
+      '<div class="tick">&#10003;</div>' +
+      '<div class="img-wrap"><img src="' + img.dataUrl + '" alt="' + img.title + '"></div>' +
+      '<div class="diagram-opt-body">' +
+        '<div class="diagram-opt-title">' + img.title + '</div>' +
+        '<div class="diagram-opt-desc">Wikimedia Commons</div>' +
+      '</div>';
 
     div.addEventListener('click', function() {
       div.classList.toggle('selected');
       if (div.classList.contains('selected')) {
         selectedDiagrams.push(img);
       } else {
-        selectedDiagrams = selectedDiagrams.filter(function(d) { return d.url !== img.url; });
+        selectedDiagrams = selectedDiagrams.filter(function(d) { return d.dataUrl !== img.dataUrl; });
       }
       updateOutputDiagrams();
     });
@@ -715,7 +704,7 @@ function updateOutputDiagrams() {
   selectedDiagrams.forEach(function(img) {
     var d = document.createElement('div');
     d.className = 'output-diagram';
-    d.innerHTML = '<img src="' + img.url + '" alt="' + img.title + '"><p>' + img.title + '</p>';
+    d.innerHTML = '<img src="' + img.dataUrl + '" alt="' + img.title + '"><p>' + img.title + '</p>';
     wrap.appendChild(d);
   });
   body.appendChild(wrap);
@@ -726,7 +715,7 @@ document.getElementById('copy-btn').addEventListener('click', function() {
   var text = document.getElementById('output-body').innerText;
   var btn = document.getElementById('copy-btn');
   navigator.clipboard.writeText(text).then(function() {
-    btn.innerHTML = '✓ Copied!';
+    btn.innerHTML = '&#10003; Copied!';
     setTimeout(function() {
       btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy';
     }, 2000);
