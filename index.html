@@ -10,10 +10,16 @@
   body { font-family: 'DM Sans', sans-serif; background: #f0f4f2; min-height: 100vh; color: #1a1a1a; }
 
   .header { background: #fff; border-bottom: 3px solid #b8341a; }
-  .header img { display: block; width: 100%; max-width: 780px; height: auto; max-height: 80px; object-fit: cover; object-position: center top; margin: 0 auto; }
+  .header img {
+    display: block;
+    width: 50%;
+    max-width: 400px;
+    height: auto;
+    margin: 0 auto;
+    padding: 8px 0;
+  }
 
   .main { max-width: 780px; margin: 0 auto; padding: 1.5rem 1.5rem 4rem; }
-
   .card { background: #fff; border-radius: 14px; padding: 1.5rem; margin-bottom: 1.25rem; border: 1.5px solid #dce8f0; }
   .card-title { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #5a7a9a; margin-bottom: 1rem; }
   .field { margin-bottom: 1.1rem; }
@@ -34,7 +40,6 @@
   .gen-btn:disabled { background: #7a9aba; cursor: not-allowed; }
   .spinner { width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.35); border-top-color: #fff; border-radius: 50%; animation: spin 0.7s linear infinite; }
   @keyframes spin { to { transform: rotate(360deg); } }
-
   .diagram-picker { display: none; margin-top: 1.25rem; }
   .diagram-picker.visible { display: block; }
   .diagram-picker-title { font-size: 12px; font-weight: 500; letter-spacing: 0.06em; text-transform: uppercase; color: #5a7a9a; margin-bottom: 0.75rem; }
@@ -50,7 +55,6 @@
   .diagram-option-desc { font-size: 11px; color: #5a7a9a; line-height: 1.4; }
   .diagram-loading { display: flex; align-items: center; gap: 10px; color: #5a7a9a; font-size: 13px; font-style: italic; padding: 1rem 0; }
   .diagram-spinner { width: 16px; height: 16px; border: 2px solid #c8dcea; border-top-color: #1a4a8a; border-radius: 50%; animation: spin 0.7s linear infinite; flex-shrink: 0; }
-
   .output-card { background: #fff; border-radius: 14px; border: 1.5px solid #dce8f0; overflow: hidden; margin-top: 1.25rem; display: none; }
   .output-toolbar { display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; background: #f0f6fa; border-bottom: 1.5px solid #dce8f0; }
   .output-toolbar-label { font-size: 11px; font-weight: 500; letter-spacing: 0.07em; text-transform: uppercase; color: #5a7a9a; }
@@ -73,14 +77,17 @@
   .no-diagrams { font-size: 13px; color: #5a7a9a; grid-column: 1/-1; padding: 0.5rem 0; }
 
   @media print {
-    body { background: #fff; }
-    .main { padding: 0 1rem; }
-    .card, .gen-btn, .output-toolbar, .disclaimer, .diagram-picker { display: none !important; }
+    @page { margin: 10mm; size: A4; }
+    head title { display: none; }
+    body { background: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+    .main { padding: 0; }
+    .card, .output-toolbar, .disclaimer, .diagram-picker { display: none !important; }
     .output-card { display: block !important; border: none; margin: 0; }
-    .output-body { padding: 1rem 0; }
-    .header { border-bottom: none; }
-    .header img { max-height: 70px; }
+    .output-body { padding: 0.5rem 0; }
+    .header { border-bottom: 2px solid #b8341a; }
+    .header img { width: 40%; max-width: 300px; padding: 4px 0; }
   }
+
   @media (max-width: 520px) {
     .two-col { grid-template-columns: 1fr; }
     .diagram-grid { grid-template-columns: 1fr; }
@@ -169,6 +176,47 @@ var selectedLevel = 'simple';
 var selectedFocus = 'overview';
 var selectedDiagrams = [];
 
+// Curated fallback images by keyword
+var FALLBACKS = {
+  knee: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Knee_diagram.svg/400px-Knee_diagram.svg.png', title: 'Knee ligament diagram', desc: 'Wikimedia Commons' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Meniscus_tear_types.svg/400px-Meniscus_tear_types.svg.png', title: 'Meniscus tear types', desc: 'Wikimedia Commons' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Blausen_0597_KneeAnatomy_Side.png/400px-Blausen_0597_KneeAnatomy_Side.png', title: 'Knee anatomy — side view', desc: 'Wikimedia Commons' }
+  ],
+  meniscus: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e3/Knee_diagram.svg/400px-Knee_diagram.svg.png', title: 'Knee ligament diagram', desc: 'Wikimedia Commons' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/b/b7/Meniscus_tear_types.svg/400px-Meniscus_tear_types.svg.png', title: 'Meniscus tear types', desc: 'Wikimedia Commons' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f5/Blausen_0597_KneeAnatomy_Side.png/400px-Blausen_0597_KneeAnatomy_Side.png', title: 'Knee anatomy — side view', desc: 'Wikimedia Commons' }
+  ],
+  diabetes: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/6/65/Symptoms_of_diabetes.svg/400px-Symptoms_of_diabetes.svg.png', title: 'Symptoms of diabetes', desc: 'Wikimedia Commons' },
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/f/f7/Blausen_0329_Diabetes_Type2.png/400px-Blausen_0329_Diabetes_Type2.png', title: 'Type 2 diabetes', desc: 'Wikimedia Commons' }
+  ],
+  shoulder: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/Blausen_0090_ShoulderAnatomy_Glenoid.png/400px-Blausen_0090_ShoulderAnatomy_Glenoid.png', title: 'Shoulder anatomy', desc: 'Wikimedia Commons' }
+  ],
+  spine: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/a/a7/Blausen_0738_Spondylolisthesis.png/400px-Blausen_0738_Spondylolisthesis.png', title: 'Spine anatomy', desc: 'Wikimedia Commons' }
+  ],
+  hip: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/5f/Blausen_0488_HipAnatomy_01.png/400px-Blausen_0488_HipAnatomy_01.png', title: 'Hip anatomy', desc: 'Wikimedia Commons' }
+  ],
+  heart: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e5/Diagram_of_the_human_heart_%28cropped%29.svg/400px-Diagram_of_the_human_heart_%28cropped%29.svg.png', title: 'Heart anatomy', desc: 'Wikimedia Commons' }
+  ],
+  ankle: [
+    { url: 'https://upload.wikimedia.org/wikipedia/commons/thumb/9/9c/Blausen_0067_AnkleAnatomy.png/400px-Blausen_0067_AnkleAnatomy.png', title: 'Ankle anatomy', desc: 'Wikimedia Commons' }
+  ]
+};
+
+function getFallbacks(topic) {
+  var t = topic.toLowerCase();
+  for (var key in FALLBACKS) {
+    if (t.indexOf(key) !== -1) return FALLBACKS[key];
+  }
+  return null;
+}
+
 document.getElementById('level-group').addEventListener('click', function(e) {
   var btn = e.target.closest('.pill'); if (!btn) return;
   document.querySelectorAll('#level-group .pill').forEach(function(p) { p.classList.remove('active'); });
@@ -231,18 +279,20 @@ function loadDiagrams(topic) {
   loading.style.display = 'flex';
   selectedDiagrams = [];
 
-  var query = encodeURIComponent(topic + ' anatomy medical diagram');
-  var searchUrl = 'https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + query + '&srnamespace=6&srlimit=8&format=json&origin=*';
+  // Try fallbacks first for known topics
+  var fallbacks = getFallbacks(topic);
+  if (fallbacks) {
+    loading.style.display = 'none';
+    renderDiagrams(fallbacks, grid);
+    return;
+  }
 
-  fetch(searchUrl)
+  // Otherwise search Wikimedia
+  var query = encodeURIComponent(topic + ' anatomy medical diagram');
+  fetch('https://en.wikipedia.org/w/api.php?action=query&list=search&srsearch=' + query + '&srnamespace=6&srlimit=8&format=json&origin=*')
   .then(function(r) { return r.json(); })
   .then(function(data) {
     var results = (data.query && data.query.search) || [];
-    if (results.length === 0) {
-      loading.style.display = 'none';
-      grid.innerHTML = '<p class="no-diagrams">No diagrams found for this topic.</p>';
-      return;
-    }
     var promises = results.slice(0, 8).map(function(r) {
       return fetch('https://en.wikipedia.org/w/api.php?action=query&titles=' + encodeURIComponent(r.title) + '&prop=imageinfo&iiprop=url|mime|size&format=json&origin=*')
       .then(function(r2) { return r2.json(); })
@@ -250,37 +300,40 @@ function loadDiagrams(topic) {
         var pages = d.query && d.query.pages;
         var page = pages && Object.values(pages)[0];
         var info = page && page.imageinfo && page.imageinfo[0];
-        if (info && ['image/png','image/jpeg'].includes(info.mime) && info.size > 5000) {
-          return { url: info.url, title: r.title.replace('File:','').replace(/\.[^.]+$/,''), desc: 'Wikimedia Commons medical illustration' };
+        if (info && ['image/png','image/jpeg','image/svg+xml'].includes(info.mime) && info.size > 2000) {
+          return { url: info.url, title: r.title.replace('File:','').replace(/\.[^.]+$/,''), desc: 'Wikimedia Commons' };
         }
         return null;
       }).catch(function() { return null; });
     });
-
     Promise.all(promises).then(function(images) {
       loading.style.display = 'none';
       images = images.filter(Boolean).slice(0, 3);
       if (images.length === 0) {
-        grid.innerHTML = '<p class="no-diagrams">No suitable diagrams found for this topic. Try a broader term like "knee anatomy" or "diabetes".</p>';
-        return;
+        grid.innerHTML = '<p class="no-diagrams">No diagrams found. Try a simpler term like "knee" or "shoulder".</p>';
+      } else {
+        renderDiagrams(images, grid);
       }
-      images.forEach(function(img) {
-        var div = document.createElement('div');
-        div.className = 'diagram-option';
-        div.innerHTML = '<div class="check">✓</div><img src="' + img.url + '" alt="' + img.title + '" onerror="this.parentElement.style.display=\'none\'"><div class="diagram-option-body"><div class="diagram-option-title">' + img.title + '</div><div class="diagram-option-desc">' + img.desc + '</div></div>';
-        div.addEventListener('click', function() {
-          div.classList.toggle('selected');
-          if (div.classList.contains('selected')) { selectedDiagrams.push(img); }
-          else { selectedDiagrams = selectedDiagrams.filter(function(d) { return d.url !== img.url; }); }
-          updateDiagramsInOutput();
-        });
-        grid.appendChild(div);
-      });
     });
   })
   .catch(function() {
     loading.style.display = 'none';
-    grid.innerHTML = '<p class="no-diagrams">Could not connect to image library. Check your connection and try again.</p>';
+    grid.innerHTML = '<p class="no-diagrams">Could not connect to image library.</p>';
+  });
+}
+
+function renderDiagrams(images, grid) {
+  images.forEach(function(img) {
+    var div = document.createElement('div');
+    div.className = 'diagram-option';
+    div.innerHTML = '<div class="check">✓</div><img src="' + img.url + '" alt="' + img.title + '" onerror="this.parentElement.style.display=\'none\'"><div class="diagram-option-body"><div class="diagram-option-title">' + img.title + '</div><div class="diagram-option-desc">' + img.desc + '</div></div>';
+    div.addEventListener('click', function() {
+      div.classList.toggle('selected');
+      if (div.classList.contains('selected')) { selectedDiagrams.push(img); }
+      else { selectedDiagrams = selectedDiagrams.filter(function(d) { return d.url !== img.url; }); }
+      updateDiagramsInOutput();
+    });
+    grid.appendChild(div);
   });
 }
 
